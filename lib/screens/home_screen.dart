@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         controller: _pageController,
         children: <Widget>[
-          FeedScreen(),
+          FeedScreen(currentUserId: currentUserId),
           SearchScreen(),
           CreatePostScreen(),
           ActivityScreen(),
@@ -40,9 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
         onPageChanged: (int index) {
-          setState(() {
-            _currentTab = index;
-          });
+          if (this.mounted) {
+            setState(() {
+              _currentTab = index;
+            });
+          }
         },
       ),
       bottomNavigationBar: CupertinoTabBar(
@@ -80,9 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: _currentTab,
         onTap: (int index) {
-          setState(() {
-            _currentTab = index;
-          });
+          if (this.mounted) {
+            setState(() {
+              _currentTab = index;
+            });
+          }
           _pageController.animateToPage(index,
               duration: Duration(milliseconds: 200), curve: Curves.easeIn);
         },

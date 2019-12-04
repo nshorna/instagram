@@ -38,6 +38,14 @@ class AuthService {
     _auth.signOut();
   }
 
+  // static Future<void> login(String email, String password) async {
+  //   try {
+  //     await _auth.signInWithEmailAndPassword(email: email, password: password);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
   static void login(String email, String password) {
     try {
       _auth.signInWithEmailAndPassword(email: email, password: password);

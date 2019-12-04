@@ -8,3 +8,4 @@ final postsRef = _firestore.collection('posts');
 final storageRef = FirebaseStorage.instance.ref();
 final followersRef = _firestore.collection('followers');
 final followingRef = _firestore.collection('following');
+final feedsRef = _firestore.collection('feeds');

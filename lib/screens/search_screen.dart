@@ -26,21 +26,25 @@ class _SearchScreenState extends State<SearchScreen> {
             : CachedNetworkImageProvider(user.profileImageUrl),
       ),
       onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => ProfileScreen(
-                    currentUserId: Provider.of<UserData>(context).currentUserId,
-                    userId: user.id,
-                  ))),
+        context,
+        MaterialPageRoute(
+          builder: (_) => ProfileScreen(
+            currentUserId: Provider.of<UserData>(context).currentUserId,
+            userId: user.id,
+          ),
+        ),
+      ),
     );
   }
 
   _clearSearch() {
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _searchController.clear());
-    setState(() {
-      _users = null;
-    });
+    if (this.mounted) {
+      setState(() {
+        _users = null;
+      });
+    }
   }
 
   @override
@@ -68,9 +72,11 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           onSubmitted: (input) {
             if (input.isNotEmpty) {
-              setState(() {
-                _users = DatabaseService.searchUsers(input);
-              });
+              if (this.mounted) {
+                setState(() {
+                  _users = DatabaseService.searchUsers(input);
+                });
+              }
             }
           },
         ),

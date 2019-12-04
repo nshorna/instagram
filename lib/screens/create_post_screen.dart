@@ -83,9 +83,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     File imageFile = await ImagePicker.pickImage(source: source);
     if (imageFile != null) {
       imageFile = await _cropImage(imageFile);
-      setState(() {
-        _image = imageFile;
-      });
+      if (this.mounted) {
+        setState(() {
+          _image = imageFile;
+        });
+      }
     }
   }
 
@@ -98,9 +100,11 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   _submit() async {
     if (!_isLoading && _image != null && _caption.isNotEmpty) {
-      setState(() {
-        _isLoading = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          _isLoading = true;
+        });
+      }
       //create post
       String imageUrl = await StorageService.uploadPost(_image);
       Post post = Post(
@@ -114,11 +118,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       DatabaseService.createPost(post);
       //reset data
       _captionController.clear();
-      setState(() {
-        _caption = '';
-        _image = null;
-        _isLoading = false;
-      });
+      if (this.mounted) {
+        setState(() {
+          _caption = '';
+          _image = null;
+          _isLoading = false;
+        });
+      }
     }
   }
 

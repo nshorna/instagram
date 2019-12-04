@@ -12,12 +12,24 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email = '', _password = '';
-  _submit() {
+  bool _loading = false;
+
+  _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print(_email);
       print(_password);
+      // if (this.mounted) {
+      //   setState(() {
+      //     _loading = true;
+      //   });
+      // }
       AuthService.login(_email, _password);
+      // if (this.mounted) {
+      //   setState(() {
+      //     _loading = false;
+      //   });
+      // }
     }
   }
 
@@ -72,18 +84,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 20.0,
                     ),
                     Container(
-                      child: FlatButton(
-                        onPressed: _submit,
-                        color: Colors.blue,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            'Login',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18.0),
-                          ),
-                        ),
-                      ),
+                      child: _loading
+                          ? Center(child: CircularProgressIndicator())
+                          : FlatButton(
+                              onPressed: _submit,
+                              color: Colors.blue,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18.0),
+                                ),
+                              ),
+                            ),
                       width: 250.0,
                     ),
                     Container(

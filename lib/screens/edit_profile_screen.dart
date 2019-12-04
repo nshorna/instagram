@@ -46,18 +46,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   _handleImageFromGallery() async {
     File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (imageFile != null) {
-      setState(() {
-        _profileImage = imageFile;
-      });
+      if (this.mounted) {
+        setState(() {
+          _profileImage = imageFile;
+        });
+      }
     }
   }
 
   _handleImageFromCamera() async {
     File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (imageFile != null) {
-      setState(() {
-        _profileImage = imageFile;
-      });
+      if (this.mounted) {
+        setState(() {
+          _profileImage = imageFile;
+        });
+      }
     }
   }
 
@@ -65,9 +69,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (_formKey.currentState.validate() && !isLoading) {
       _formKey.currentState.save();
 
-      setState(() {
-        isLoading = true;
-      });
+      if (this.mounted) {
+        setState(() {
+          isLoading = true;
+        });
+      }
       //Update user in database
       String _profileImageUrl = '';
       if (_profileImage == null) {

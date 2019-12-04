@@ -44,10 +44,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       currentUserId: widget.currentUserId,
       userId: widget.userId,
     );
-    setState(() {
-      _isFollowing = false;
-      _followerCount--;
-    });
+    if (this.mounted) {
+      setState(() {
+        _isFollowing = false;
+        _followerCount--;
+      });
+    }
   }
 
   _followUser() {
@@ -55,37 +57,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
       currentUserId: widget.currentUserId,
       userId: widget.userId,
     );
-    setState(() {
-      _isFollowing = true;
-      _followerCount++;
-    });
+    if (this.mounted) {
+      setState(() {
+        _isFollowing = true;
+        _followerCount++;
+      });
+    }
   }
 
   _setupIsFollowing() async {
     bool isFollowingUser = await DatabaseService.isFollowingUser(
         currentUserId: widget.currentUserId, userId: widget.userId);
     print('Isfollowing: $isFollowingUser');
-    setState(() {
-      _isFollowing = isFollowingUser;
-    });
+    if (this.mounted) {
+      setState(() {
+        _isFollowing = isFollowingUser;
+      });
+    }
   }
 
   _setupFollowers() async {
     int userFollowersCount = await DatabaseService.numFollowers(widget.userId);
     print('User Followers Count: $userFollowersCount');
-
-    setState(() {
-      _followerCount = userFollowersCount;
-    });
+    if (this.mounted) {
+      setState(() {
+        _followerCount = userFollowersCount;
+      });
+    }
   }
 
   _setupFollowing() async {
     int userFollowingCount = await DatabaseService.numFollowing(widget.userId);
     print('User following count: $userFollowingCount');
-
-    setState(() {
-      _followingCount = userFollowingCount;
-    });
+    if (this.mounted) {
+      setState(() {
+        _followingCount = userFollowingCount;
+      });
+    }
   }
 
   _displayButton(User user) {
