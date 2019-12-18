@@ -14,7 +14,7 @@ exports.onFollowUser = functions.firestore
         .firestore()
         .collection('posts')
         .doc(userId)
-        .collection('usersPosts');
+        .collection('userPosts');
     const userFeedRef = admin
         .firestore()
         .collection('feeds')
@@ -50,7 +50,7 @@ exports.onUnfollowUser = functions.firestore
 
 
 exports.onUploadPost = functions.firestore
-    .document('/posts/{userId}/usersPosts/{postId}')
+    .document('/posts/{userId}/userPosts/{postId}')
     .onCreate(async (snapshot,context)=> {
         console.log(snapshot.data());
         const userId = context.params.userId;
@@ -73,3 +73,29 @@ exports.onUploadPost = functions.firestore
         })
 
     })
+
+    exports.onUpdatePost = functions.firestore
+        .document('/posts/{userId}/userPosts/{postId}')
+        .onUpdate(async (snapshot,context)=>{
+            const userId = context.params.userId;
+            const postId = context.params.postId;
+            const newPostData = snapshot.after.data();
+            console.log(newPostData);
+            const userFollowersRef= admin
+                .firestore()
+                .collection('followers')
+                .doc(userId)
+                .collection('userFollowers');
+            const userFollowersSnapshot = await userFollowersRef.get();
+            userFollowersSnapshot.forEach(async userDoc=>{
+                const postRef = admin
+                    .firestore()
+                    .collection('feeds')
+                    .doc(userDoc.id)
+                    .collection('userFeed');
+                const postDoc = await postRef.doc(postId).get();
+                if(postDoc.exists){
+                    postDoc.ref.update(newPostData);
+                }
+        });
+    });
