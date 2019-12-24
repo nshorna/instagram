@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/models/post_model.dart';
 import 'package:instagram_clone/models/user_data.dart';
+import 'package:instagram_clone/screens/comments_screen.dart';
 import 'package:instagram_clone/screens/edit_profile_screen.dart';
 import 'package:instagram_clone/services/auth_service.dart';
 import 'package:instagram_clone/services/database_service.dart';
@@ -280,9 +281,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _buildTilePost(Post post) {
     return GridTile(
-      child: Image(
-        image: CachedNetworkImageProvider(post.imageUrl),
-        fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CommentsScreen(
+              postId: post.id,
+              likeCount: post.likeCount,
+            ),
+          ),
+        ),
+        child: Image(
+          image: CachedNetworkImageProvider(post.imageUrl),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
