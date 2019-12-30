@@ -286,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           context,
           MaterialPageRoute(
             builder: (_) => CommentsScreen(
-              postId: post.id,
+              post: post,
               likeCount: post.likeCount,
             ),
           ),
