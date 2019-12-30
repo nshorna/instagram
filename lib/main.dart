@@ -6,9 +6,8 @@ import 'package:instagram_clone/screens/home_screen.dart';
 import 'package:instagram_clone/screens/login_screen.dart';
 import 'package:instagram_clone/screens/signup_screen.dart';
 import 'package:provider/provider.dart';
-import 'sms_screen.dart';
 
-void main() => runApp(SmsApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   Widget _getScreenId() {
@@ -44,20 +43,6 @@ class MyApp extends StatelessWidget {
           FeedScreen.id: (context) => FeedScreen(),
         },
       ),
-    );
-  }
-}
-
-class SmsApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sms App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primaryIconTheme:
-              Theme.of(context).primaryIconTheme.copyWith(color: Colors.black)),
-      home: SmsScreen(),
     );
   }
 }
